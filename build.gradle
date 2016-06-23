@@ -22,13 +22,18 @@ buildscript {
 }
  
 apply plugin: 'java'
+apply plugin: 'application'
 apply plugin: 'eclipse'
 apply plugin: "com.github.johnrengelman.shadow"
+
+mainClassName = 'com.mymock.solrcli.Entry'
 
 // In this section you declare where to find the dependencies of your project
 repositories {
     // Use 'jcenter' for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
+	mavenCentral()
+	mavenLocal()
     jcenter()
 }
 
@@ -36,7 +41,7 @@ group = "com.mymock"
 archivesBaseName = "solrcli"
 version = "0.0.1-SNAPSHOT"
 
-mainClassName = 'com.mymock.solrcli.Entry'
+
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
