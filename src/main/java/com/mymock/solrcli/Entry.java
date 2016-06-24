@@ -5,12 +5,14 @@ import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.mymock.solrcli.completer.MyFileNameCompleter;
+import com.mymock.solrcli.completer.MyStringCompleter;
+
 import jline.console.ConsoleReader;
 import jline.console.completer.AnsiStringsCompleter;
 import jline.console.completer.CandidateListCompletionHandler;
 import jline.console.completer.Completer;
 import jline.console.completer.FileNameCompleter;
-import jline.console.completer.StringsCompleter;
 
 public class Entry {
 
@@ -60,7 +62,8 @@ public class Entry {
                     completors.add(new FileNameCompleter());
                 }
                 else if (args[0].equals("simple")) {
-                    completors.add(new StringsCompleter("foo", "bar", "baz"));
+                    completors.add(new MyStringCompleter("foo", "bar", "baz"));
+                    completors.add(new MyFileNameCompleter());
                 }
                 else if (args[0].equals("color")) {
                     color = true;

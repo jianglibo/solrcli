@@ -1,0 +1,32 @@
+Configuration:
+  status: warn
+  
+  Properties:
+    Property:
+      name: log-path
+      value: "logs"
+      
+  Appenders:
+    Console:
+      name: NameConsole
+      target: SYSTEM_OUT
+      PatternLayout:
+        Pattern: "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
+    File:
+      name: NameFile
+      fileName: ${log-path}/logfile.log
+      PatternLayout:
+        pattern: "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
+
+  Loggers:
+    Root:
+      level: trace
+      AppenderRef:
+        - ref: NameFile
+        - ref: NameConsole
+    Logger:
+      - name: com.mymock.solrcli.completer
+        level: debug
+        additivity: false
+        AppenderRef:
+          - ref: NameFile

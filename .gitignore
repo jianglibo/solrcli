@@ -70,3 +70,4 @@ $RECYCLE.BIN/
 !gradle/**/*.jar
 bin/
 build/
+logs/
