@@ -1,0 +1,127 @@
+actions:
+  CREATE:
+    name:
+      type: string
+      required: true
+      defaultValue:
+      description: "The name of the collection to be created."
+    router.name:
+      type: string
+      required: false
+      defaultValue: compositeId
+      description: "The router name that will be used. The router defines how documents will be distributed among the shards. Possible values are implicit or compositeId. The 'implicit' router does not automatically route documents to different shards.  Whichever shard you indicate on the indexing request (or within each document) will be used as the destination for those documents. The 'compositeId' router hashes the value in the uniqueKey field and looks up that hash in the collection's clusterstate to determine which shard will receive the document, with the additional ability to manually direct the routing.  When using the 'implicit' router, the shards parameter is required. When using the 'compositeId' router, the numShards parameter is required. For more information, see also the section Document Routing."
+    numShards:
+      type: integer
+      required: true
+      defaultValue:
+      description: "The number of shards to be created as part of the collection. This is a required parameter when using the 'compositeId' router."
+    shards:
+      type: string
+      required: false
+      defaultValue:
+      description: "A comma separated list of shard names, e.g., shard-x,shard-y,shard-z . This is a required parameter when using the 'implicit' router."
+    replicationFactor:
+      type: integer
+      required: false
+      defaultValue: 1
+      description: "he number of replicas to be created for each shard."
+    maxShardsPerNode:
+      type: integer
+      required: false
+      defaultValue: 1
+      description: "When creating collections, the shards and/or replicas are spread across all available (i.e., live) nodes, and two replicas of the same shard will never be on the same node. If a node is not live when the CREATE operation is called, it will not get any parts of the new collection, which could lead to too many replicas being created on a single live node. Defining maxShardsPerNode sets a limit on the number of replicas CREATE will spread to each node. If the entire collection can not be fit into the live nodes, no collection will be created at all."
+    createNodeSet:
+      type: string
+      required: true
+      defaultValue:
+      description: "Allows defining the nodes to spread the new collection across. If not provided, the CREATE operation will create shard-replica spread across all live Solr nodes. The format is a comma-separated list of node_names, such as localhost:8983_solr, localhost:8984_solr, localhost:8985_solr. Alternatively, use the special value of EMPTY to initially create no shard-replica within the new collection and then later use the ADDREPLICA operation to add shard-replica when and where required."
+    createNodeSet.shuffle:
+      type: boolean
+      required: false
+      defaultValue: true
+      description: "Controls wether or not the shard-replicas created for this collection will be assigned to the nodes specified by the createNodeSet in a sequential manner, or if the list of nodes should be shuffled prior to creating individual replicas.  A 'false' value makes the results of a collection creation predictible and gives more exact control over the location of the individual shard-replicas, but 'true' can be a better choice for ensuring replicas are distributed evenly across nodes."
+    collection.configName:
+      type: string
+      required: false
+      defaultValue:
+      description: "Defines the name of the configurations (which must already be stored in ZooKeeper) to use for this collection. If not provided, Solr will default to the collection name as the configuration name."
+    router.field:
+      type: string
+      required: false
+      defaultValue:
+      description: "If this field is specified, the router will look at the value of the field in an input document to compute the hash and identify a shard instead of looking at the uniqueKey field. If the field specified is null in the document, the document will be rejected. Please note that RealTime Get or retrieval by id would also require the parameter _route_ (or shard.keys) to avoid a distributed search."
+    autoAddReplicas:
+      type: string
+      required: false
+      defaultValue: false
+      description: "When set to true, enables auto addition of replicas on shared file systems. See the section autoAddReplicas Settings for more details on settings and overrides."
+    async:
+      type: string
+      required: false
+      defaultValue:
+      description: "Request ID to track this action which will be processed asynchronously."
+    rule:
+      type: string
+      required: false
+      defaultValue:
+      description: "Replica placement rules. See the section Rule-based Replica Placement for details."
+    snitch:
+      type: string
+      required: false
+      defaultValue:
+      description: "Details of the snitch provider. See the section Rule-based Replica Placement for details."
+  # MODIFYCOLLECTION:
+  #   - collection
+  #   - maxShardsPerNode
+  #   - replicationFactor
+  #   - autoAddReplicas
+  #   - rule
+  #   - snitch
+  # Reload:
+  #   - name
+  #   - async
+  # SPLITSHARD:
+  #   - collection
+  #   - shard
+  #   - ranges
+  #   - split.key
+  #   - async
+  # CREATESHARD:
+  #   - collection
+  #   - shard
+  #   - createNodeSet
+  #   - async
+  # DELETESHARD:
+  #   - collection
+  #   - shard
+  #   - deleteInstanceDir
+  #   - deleteDataDir
+  #   - deleteIndex
+  #   - async
+  # CREATEALIAS:
+  #   - name
+  #   - collections
+  #   - async
+  # DELETEALIAS:
+  #   - name
+  #   - async
+  # DELETE:
+  #   - name
+  #   - async
+  # DELETEREPLICA:
+  #   - collection
+  #   - shard
+  #   - replica
+  #   - deleteInstanceDir
+  #   - deleteDataDir
+  #   - deleteIndex
+  #   - onlyIfDown
+  #   - async
+  # ADDREPLICA:
+  #   - collection
+  #   - shard
+  #   - _route_
+  #   - node
+  #   - instanceDir
+  #   - dataDir
+  #   - async

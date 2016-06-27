@@ -5,10 +5,15 @@ import static jline.internal.Preconditions.checkNotNull;
 import java.io.File;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import jline.console.completer.Completer;
 import jline.internal.Configuration;
 
 public class MyFileNameCompleter implements Completer {
+	
+	private static Logger LOGGER = LogManager.getLogger(MyFileNameCompleter.class);
 
     private static final boolean OS_IS_WINDOWS;
 
@@ -76,25 +81,29 @@ public class MyFileNameCompleter implements Completer {
         if (files == null) {
             return -1;
         }
-
+        String trimedTranslated = translated.trim();
         int matches = 0;
 
         // first pass: just count the matches
         for (File file : files) {
-            if (file.getAbsolutePath().startsWith(translated)) {
+            if (file.getAbsolutePath().startsWith(trimedTranslated)) {
                 matches++;
             }
         }
         for (File file : files) {
-            if (file.getAbsolutePath().startsWith(translated)) {
-                CharSequence name = file.getName() + (matches == 1 && file.isDirectory() ? separator() : " ");
+            if (file.getAbsolutePath().startsWith(trimedTranslated)) {
+                CharSequence name = file.getName() + ((matches == 1 && file.isDirectory()) ? separator() : " ");
+                LOGGER.error("name lentgh: {}", name.length());
                 candidates.add(render(file, name).toString());
             }
         }
 
         final int index = buffer.lastIndexOf(separator());
-        return index;
-//        return index + separator().length();
+//        return index;
+        int i = index + separator().length();
+        LOGGER.error("buffer: {}", buffer);
+        LOGGER.error("return i is: {}", i);
+        return i;
     }
 
     protected CharSequence render(final File file, final CharSequence name) {

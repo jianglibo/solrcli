@@ -44,6 +44,9 @@ public class Entry {
             boolean color = false;
 
             ConsoleReader reader = new ConsoleReader();
+            CandidateListCompletionHandler cch = new CandidateListCompletionHandler();
+            cch.setPrintSpaceAfterFullCompletion(false);
+            reader.setCompletionHandler(cch);
 
             reader.setPrompt("prompt> ");
 
@@ -63,7 +66,7 @@ public class Entry {
                 }
                 else if (args[0].equals("simple")) {
                     completors.add(new MyStringCompleter("foo", "bar", "baz"));
-                    completors.add(new MyFileNameCompleter());
+//                    completors.add(new MyFileNameCompleter());
                 }
                 else if (args[0].equals("color")) {
                     color = true;
